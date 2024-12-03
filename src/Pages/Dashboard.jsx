@@ -25,7 +25,7 @@ const Dashboard = () => {
   const fetchHistory = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8875/game/getHistory/${userId}`
+        `https://be-rock-paper-scissor.onrender.com/game/getHistory/${userId}`
       )
       console.log(res.data)
       setHistory(res.data)
@@ -63,7 +63,7 @@ const Dashboard = () => {
     console.log("Sent")
     console.log(userId)
     try {
-      await axios.post(`http://localhost:8875/game/sendHistory/${userId}`, {
+      await axios.post(`https://be-rock-paper-scissor.onrender.com/game/sendHistory/${userId}`, {
         userScore: score,
         botScore,
       })

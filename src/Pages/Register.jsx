@@ -14,7 +14,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8875/register",
+        "https://be-rock-paper-scissor.onrender.com/register",
         {
           email: email,
           password: password,

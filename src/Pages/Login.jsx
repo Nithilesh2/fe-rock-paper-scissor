@@ -13,7 +13,7 @@ const Login = () => {
     eve.preventDefault()
 
     try {
-      const res = await axios.post("http://localhost:8875/login",{
+      const res = await axios.post("https://be-rock-paper-scissor.onrender.com/login",{
         email,
         password,
       },{
