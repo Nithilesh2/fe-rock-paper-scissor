@@ -6,6 +6,7 @@ import axios from "axios"
 const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -13,6 +14,7 @@ const Register = () => {
     eve.preventDefault()
 
     try {
+      setLoading(true)
       const res = await axios.post(
         "https://be-rock-paper-scissor.onrender.com/register",
         {
@@ -27,11 +29,15 @@ const Register = () => {
       )
       alert(res.data.message)
       navigate("/login")
+      setLoading(false)
     } catch (error) {
       console.log(error)
       if (error.code === 409) {
         alert(error.response.data.message)
       }
+    }
+    finally{
+      setLoading(false)
     }
   }
 
@@ -45,24 +51,26 @@ const Register = () => {
             placeholder="Email"
             className={styles.userName}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             className={styles.password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button
             type="submit"
             className={styles.loginBtn}
             onClick={registerClicked}
           >
-            Register
+            {loading? 'Loading...': 'Register'}
           </button>
 
           <div className={styles.newAcc}>
             <p className={styles.registerPara}>Already have Account?</p>
-            <Link to="/login" className={styles.register}>
+            <Link to="/" className={styles.register}>
               Login
             </Link>
           </div>

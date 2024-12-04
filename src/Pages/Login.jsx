@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -13,23 +14,30 @@ const Login = () => {
     eve.preventDefault()
 
     try {
-      const res = await axios.post("https://be-rock-paper-scissor.onrender.com/login",{
-        email,
-        password,
-      },{
-        headers: {
-          'Content-Type': 'application/json',
+      setLoading(true)
+      const res = await axios.post(
+        "https://be-rock-paper-scissor.onrender.com/login",
+        {
+          email,
+          password,
         },
-      })
-      console.log(res.data)
-      
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      navigate("/dashboard")
       localStorage.setItem("token", res.data.userId)
-      navigate("/")
+
+      setLoading(false)
     } catch (error) {
       console.log(error)
-      if(error.status === 409){
+      if (error.status === 409) {
         alert(error.response.data.message)
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -43,20 +51,29 @@ const Login = () => {
             placeholder="Email"
             className={styles.userName}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             className={styles.password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
-          <button type="submit" className={styles.loginBtn} onClick={loginClicked}>
-            Login
+          <button
+            type="submit"
+            className={styles.loginBtn}
+            onClick={loginClicked}
+          >
+            {loading? "Loading...": "Login"}
+            {/* Login */}
           </button>
 
           <div className={styles.newAcc}>
             <p className={styles.registerPara}>Create new Account?</p>
-            <Link to="/register" className={styles.register}>Register</Link>
+            <Link to="/register" className={styles.register}>
+              Register
+            </Link>
           </div>
         </form>
       </div>
